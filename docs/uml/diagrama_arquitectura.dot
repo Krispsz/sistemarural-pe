@@ -1,0 +1,21 @@
+digraph SistemaRuralPE {
+  rankdir=LR; nodesep=0.4; ranksep=0.9; splines=true;
+  node [fontname="Helvetica" fontsize=13]; edge [fontname="Helvetica" fontsize=12 arrowsize=0.9];
+  Paciente [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>Paciente</B></TD></TR></TABLE>>];
+  Atencion [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>Atencion</B></TD></TR></TABLE>>];
+  AgendaCitas [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>AgendaCitas</B></TD></TR></TABLE>>];
+  RepositorioClinico [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#DCE9F7"><FONT POINT-SIZE="10">&laquo;Singleton&raquo;</FONT><BR/><B>RepositorioClinico</B></TD></TR><TR><TD ALIGN="LEFT">- instancia: RepositorioClinico<BR ALIGN="LEFT"/>- pacientes: dict<BR ALIGN="LEFT"/>- atenciones: list<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ buscar_por_dni(dni): Paciente<BR ALIGN="LEFT"/>+ agregar_paciente(p)<BR ALIGN="LEFT"/>+ registrar_atencion(a)<BR ALIGN="LEFT"/>+ guardar(ruta)<BR ALIGN="LEFT"/>+ cargar(ruta)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  FabricaAtenciones [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#DDF0DD"><FONT POINT-SIZE="10">&laquo;Factory&raquo;</FONT><BR/><B>FabricaAtenciones</B></TD></TR><TR><TD ALIGN="LEFT"> </TD></TR><TR><TD ALIGN="LEFT">+ crear(paciente, tipo, fecha, campana): Atencion<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  BusEventos [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFF3CC"><FONT POINT-SIZE="10">&laquo;Observer&raquo;</FONT><BR/><B>BusEventos</B></TD></TR><TR><TD ALIGN="LEFT">- manejadores: dict<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ suscribir(evento, manejador)<BR ALIGN="LEFT"/>+ publicar(evento, datos)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  RegistroAuditoria [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFF3CC"><B>RegistroAuditoria</B></TD></TR><TR><TD ALIGN="LEFT">- lineas: list<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ al_registrar_atencion(a)<BR ALIGN="LEFT"/>+ al_agendar_cita(c)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  ServicioClinico [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>ServicioClinico</B></TD></TR><TR><TD ALIGN="LEFT">- repositorio<BR ALIGN="LEFT"/>- bus<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ registrar_paciente(...)<BR ALIGN="LEFT"/>+ registrar_atencion(...)<BR ALIGN="LEFT"/>+ agendar_cita(...)<BR ALIGN="LEFT"/>+ reporte_periodo(inicio, fin)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  reportes [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#EEEEEE"><FONT POINT-SIZE="10">&laquo;modulo funcional&raquo;</FONT><BR/><B>reportes</B></TD></TR><TR><TD ALIGN="LEFT"> </TD></TR><TR><TD ALIGN="LEFT">+ filtrar_atenciones_campana()<BR ALIGN="LEFT"/>+ generar_reporte()<BR ALIGN="LEFT"/>+ contar_atenciones()<BR ALIGN="LEFT"/>+ filtrar_por_periodo()<BR ALIGN="LEFT"/>+ contar_por_centro_poblado()<BR ALIGN="LEFT"/>+ generar_reporte_periodo()<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  RepositorioClinico -> AgendaCitas [dir=back arrowtail=diamond headlabel="1"];
+  RepositorioClinico -> Paciente [dir=back arrowtail=odiamond headlabel="0..*"];
+  ServicioClinico -> RepositorioClinico [arrowhead=vee];
+  ServicioClinico -> BusEventos [arrowhead=vee];
+  ServicioClinico -> FabricaAtenciones [arrowhead=vee style=dashed label="usa"];
+  ServicioClinico -> reportes [arrowhead=vee style=dashed label="usa"];
+  FabricaAtenciones -> Atencion [arrowhead=vee style=dashed label="crea"];
+  RegistroAuditoria -> BusEventos [arrowhead=vee style=dashed label="se suscribe"];
+}

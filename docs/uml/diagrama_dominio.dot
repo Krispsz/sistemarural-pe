@@ -1,0 +1,22 @@
+digraph SistemaRuralPE {
+  rankdir=TB; nodesep=0.4; ranksep=0.9; splines=true;
+  node [fontname="Helvetica" fontsize=13]; edge [fontname="Helvetica" fontsize=12 arrowsize=0.9];
+  Persona [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>Persona</B></TD></TR><TR><TD ALIGN="LEFT">- nombre: str<BR ALIGN="LEFT"/>- edad: int<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ descripcion(): str<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  Paciente [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>Paciente</B></TD></TR><TR><TD ALIGN="LEFT">- huella_dni: str<BR ALIGN="LEFT"/>- dni_enmascarado: str<BR ALIGN="LEFT"/>- centro_poblado: str<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ get_dni_enmascarado(): str<BR ALIGN="LEFT"/>+ coincide_dni(dni): bool<BR ALIGN="LEFT"/>+ descripcion(): str<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  PersonalSalud [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>PersonalSalud</B></TD></TR><TR><TD ALIGN="LEFT">- cargo: str<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ descripcion(): str<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  HistorialClinico [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>HistorialClinico</B></TD></TR><TR><TD ALIGN="LEFT">- atenciones: list<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ agregar(atencion)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  Atencion [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>Atencion</B></TD></TR><TR><TD ALIGN="LEFT">- tipo: str<BR ALIGN="LEFT"/>- fecha: date<BR ALIGN="LEFT"/>- campana: str<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ descripcion(): str<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  AtencionEnPuesto [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>AtencionEnPuesto</B></TD></TR><TR><TD ALIGN="LEFT"> </TD></TR><TR><TD ALIGN="LEFT">+ descripcion(): str<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  AtencionBrigada [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>AtencionBrigada</B></TD></TR><TR><TD ALIGN="LEFT"> </TD></TR><TR><TD ALIGN="LEFT">+ descripcion(): str<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  Cita [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>Cita</B></TD></TR><TR><TD ALIGN="LEFT">- fecha_hora: datetime<BR ALIGN="LEFT"/>- motivo: str<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT"> </TD></TR></TABLE>>];
+  AgendaCitas [shape=plain label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4"><TR><TD BGCOLOR="#FFFFFF"><B>AgendaCitas</B></TD></TR><TR><TD ALIGN="LEFT">- citas: dict<BR ALIGN="LEFT"/></TD></TR><TR><TD ALIGN="LEFT">+ agendar(cita)<BR ALIGN="LEFT"/>+ citas_del_dia(dia): list<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+  Persona -> Paciente [dir=back arrowtail=onormal];
+  Persona -> PersonalSalud [dir=back arrowtail=onormal];
+  Atencion -> AtencionEnPuesto [dir=back arrowtail=onormal];
+  Atencion -> AtencionBrigada [dir=back arrowtail=onormal];
+  Paciente -> HistorialClinico [dir=back arrowtail=diamond headlabel="1"];
+  HistorialClinico -> Atencion [dir=back arrowtail=odiamond headlabel="0..*"];
+  AgendaCitas -> Cita [dir=back arrowtail=odiamond headlabel="0..*"];
+  Atencion -> PersonalSalud [arrowhead=vee headlabel="0..1" constraint=false];
+  Cita -> Paciente [arrowhead=vee headlabel="1" constraint=false];
+}
