@@ -1,0 +1,78 @@
+digraph UML_SistemaRuralPE {
+    rankdir=TB;
+    graph [fontname="Helvetica", label="Diagrama de Clases - SistemaRural PE", labelloc=t, fontsize=20, bgcolor="white", splines=ortho];
+    node  [fontname="Helvetica", fontsize=11, shape=plaintext];
+    edge  [fontname="Helvetica", fontsize=10];
+
+    Usuario [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="lightblue">
+            <TR><TD><B>Usuario</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- nombre: String<BR ALIGN="LEFT"/>- email: String<BR ALIGN="LEFT"/>- password: String<BR ALIGN="LEFT"/>- rol: String</TD></TR>
+            <TR><TD ALIGN="LEFT">+ iniciarSesion()<BR ALIGN="LEFT"/>+ cerrarSesion()<BR ALIGN="LEFT"/>+ actualizarPerfil()</TD></TR>
+        </TABLE>
+    >];
+
+    Agricultor [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="lightgreen">
+            <TR><TD><B>Agricultor</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- dni: String<BR ALIGN="LEFT"/>- telefono: String<BR ALIGN="LEFT"/>- comunidad: String</TD></TR>
+            <TR><TD ALIGN="LEFT">+ registrar()<BR ALIGN="LEFT"/>+ actualizar()<BR ALIGN="LEFT"/>+ listarParcelas()</TD></TR>
+        </TABLE>
+    >];
+
+    Parcela [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="lightyellow">
+            <TR><TD><B>Parcela</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- hectareas: float<BR ALIGN="LEFT"/>- ubicacion: String<BR ALIGN="LEFT"/>- tipoSuelo: String</TD></TR>
+            <TR><TD ALIGN="LEFT">+ crear()<BR ALIGN="LEFT"/>+ calcularRendimiento()</TD></TR>
+        </TABLE>
+    >];
+
+    Cultivo [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="lightyellow">
+            <TR><TD><B>Cultivo</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- nombre: String<BR ALIGN="LEFT"/>- temporada: String<BR ALIGN="LEFT"/>- fechaSiembra: Date</TD></TR>
+            <TR><TD ALIGN="LEFT">+ sembrar()<BR ALIGN="LEFT"/>+ cosechar()</TD></TR>
+        </TABLE>
+    >];
+
+    Producto [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="orange">
+            <TR><TD><B>Producto</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- nombre: String<BR ALIGN="LEFT"/>- precio: float<BR ALIGN="LEFT"/>- stock: int</TD></TR>
+            <TR><TD ALIGN="LEFT">+ registrar()<BR ALIGN="LEFT"/>+ actualizarStock()</TD></TR>
+        </TABLE>
+    >];
+
+    Venta [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="pink">
+            <TR><TD><B>Venta</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- fecha: Date<BR ALIGN="LEFT"/>- total: float<BR ALIGN="LEFT"/>- estado: String</TD></TR>
+            <TR><TD ALIGN="LEFT">+ registrar()<BR ALIGN="LEFT"/>+ calcularTotal()</TD></TR>
+        </TABLE>
+    >];
+
+    DetalleVenta [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="pink">
+            <TR><TD><B>DetalleVenta</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- cantidad: int<BR ALIGN="LEFT"/>- precioUnitario: float</TD></TR>
+            <TR><TD ALIGN="LEFT">+ calcularSubtotal()</TD></TR>
+        </TABLE>
+    >];
+
+    Pago [label=<
+        <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" BGCOLOR="plum">
+            <TR><TD><B>Pago</B></TD></TR>
+            <TR><TD ALIGN="LEFT">- id: int<BR ALIGN="LEFT"/>- monto: float<BR ALIGN="LEFT"/>- metodo: String<BR ALIGN="LEFT"/>- fecha: Date</TD></TR>
+            <TR><TD ALIGN="LEFT">+ procesar()</TD></TR>
+        </TABLE>
+    >];
+
+    Agricultor -> Parcela [arrowhead=diamond, label="1..*", dir=both, arrowtail=none, headlabel="1..*", taillabel="1"];
+    Parcela -> Cultivo [arrowhead=normal, label="1..*", taillabel="1"];
+    Agricultor -> Producto [label="produce"];
+    Venta -> DetalleVenta [arrowhead=diamond, taillabel="1", headlabel="1..*"];
+    DetalleVenta -> Producto [taillabel="*", headlabel="1"];
+    Venta -> Pago [label="1", taillabel="1", headlabel="1"];
+    Usuario -> Venta [style=dashed, label="gestiona"];
+}
