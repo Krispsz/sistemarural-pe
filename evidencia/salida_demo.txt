@@ -1,0 +1,27 @@
+=== SistemaRural-PE: Puesto de Salud Mushit (Chugay) ===
+
+Pacientes registrados: 3
+ - Paciente Juana Ramos (34 años), DNI 12***78, Cochabamba
+ - Paciente Pedro Ishpilco (61 años), DNI 87***21, Uchubamba
+ - Paciente Rosa Chavez (5 años), DNI 11***44, Chugay Centro
+
+--- Agenda (RF2) ---
+Cita agendada el 07/10/2026 a las 09:00.
+Error controlado: Ya hay una cita agendada el 07/10/2026 a las 09:00.
+
+--- Reporte semanal para la Red de Salud (RF4, RF5) ---
+Total de atenciones: 3 (en brigada: 2)
+Por centro poblado: {'Cochabamba': 1, 'Uchubamba': 1, 'Chugay Centro': 1}
+ - 2026-09-08 | 12***78 | control prenatal | Cochabamba
+ - 2026-09-09 | 87***21 | consulta general | Uchubamba
+ - 2026-09-09 | 11***44 | vacunacion | puesto
+
+--- Auditoría por eventos (sin DNI en texto plano) ---
+ - ATENCION | 2026-09-08 | 12***78 | control prenatal
+ - ATENCION | 2026-09-09 | 87***21 | consulta general
+ - ATENCION | 2026-09-09 | 11***44 | vacunacion
+ - CITA | 2026-10-07 09:00 | 12***78 | control prenatal
+
+--- Verificación Ley N.° 29733 ---
+repr(paciente) = Paciente(dni=12***78, nombre=Juana Ramos)
+El DNI completo aparece en la representación: False

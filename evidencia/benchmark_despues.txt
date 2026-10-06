@@ -1,0 +1,8 @@
+Volumen simulado: 5000 pacientes, 20000 atenciones
+Cargar el volumen completo:          0.170 s
+Reporte de una semana (4669 atenciones):     9.6 ms   (criterio: < 5 s)
+Guardar en disco (3,547 KB):        148.9 ms
+Cargar desde disco:                   67.3 ms
+Memoria de los datos en RAM:           4.2 MB (pico)
+Python vacío (referencia):             9.8 MB
+SistemaRural-PE (consola, demo):      16.0 MB

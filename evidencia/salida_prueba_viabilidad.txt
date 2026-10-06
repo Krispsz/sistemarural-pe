@@ -1,0 +1,10 @@
+=== PRUEBA DE VIABILIDAD: integracion POO + Funcional ===
+Total de atenciones registradas: 3
+Atenciones ligadas a brigadas itinerantes (filter): 2
+Reporte generado con map() sobre la coleccion de Atencion:
+ - 12***78 | control prenatal | brigada: Cochabamba
+ - 87***21 | consulta general | brigada: Uchubamba
+
+Verificacion de dato protegido (RNF - Ley 29733):
+ DNI real (interno, nunca expuesto): [privado]
+ DNI mostrado en reporte: 12***78
