@@ -12,3 +12,5 @@
 - RNF2 — Proteger los datos personales sin exponerlos en texto plano (seguridad / Ley N.° 29733).
 - RNF3 — Ofrecer una interfaz usable por personal con conocimientos técnicos básicos (usabilidad).
 - RNF4 — Responder en menos de 2 segundos al registrar o consultar un paciente (rendimiento).
+
+Total: 9 requisitos de software (5 funcionales + 4 no funcionales), superando el mínimo de 6.
