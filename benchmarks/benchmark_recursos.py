@@ -7,6 +7,7 @@ sigue siendo ágil en un equipo modesto (restricción de diseño 3).
 Uso:  python3 benchmarks/benchmark_recursos.py
 """
 
+import os
 import subprocess
 import sys
 import tempfile
@@ -37,13 +38,57 @@ def poblar():
     return servicio
 
 
+def _rss_pico_windows(comando, entrada):
+    """Pico de memoria de trabajo (MB) de un proceso en Windows (solo stdlib)."""
+    import ctypes
+    from ctypes import wintypes
+
+    class ContadoresMemoria(ctypes.Structure):
+        _fields_ = [
+            ("cb", wintypes.DWORD),
+            ("PageFaultCount", wintypes.DWORD),
+            ("PeakWorkingSetSize", ctypes.c_size_t),
+            ("WorkingSetSize", ctypes.c_size_t),
+            ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
+            ("QuotaPagedPoolUsage", ctypes.c_size_t),
+            ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t),
+            ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
+            ("PagefileUsage", ctypes.c_size_t),
+            ("PeakPagefileUsage", ctypes.c_size_t),
+        ]
+
+    kernel32 = ctypes.windll.kernel32
+    psapi = ctypes.windll.psapi
+    proceso = subprocess.Popen(comando, stdin=subprocess.PIPE,
+                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        proceso.stdin.write(entrada.encode("utf-8"))
+    except Exception:
+        pass
+    finally:
+        proceso.stdin.close()
+
+    pico_mb = 0.0
+    while proceso.poll() is None:
+        contadores = ContadoresMemoria()
+        contadores.cb = ctypes.sizeof(contadores)
+        handle = kernel32.OpenProcess(0x0400 | 0x0010, False, proceso.pid)
+        if handle:
+            if psapi.GetProcessMemoryInfo(handle, ctypes.byref(contadores), contadores.cb):
+                pico_mb = max(pico_mb, contadores.PeakWorkingSetSize / 1024 / 1024)
+            kernel32.CloseHandle(handle)
+    return pico_mb
+
+
 def rss_maximo_mb(comando, entrada=""):
     """Memoria máxima (MB) de un proceso hijo, medida en un intérprete limpio."""
-    codigo = ("import resource, subprocess, sys;"
-              f"subprocess.run({comando!r}, input={entrada!r}, text=True, capture_output=True, cwd={str(RAIZ)!r});"
-              "print(resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)")
-    salida = subprocess.run([sys.executable, "-c", codigo], capture_output=True, text=True).stdout
-    return int(salida.strip()) / 1024
+    if os.name == "posix":
+        codigo = ("import resource, subprocess, sys;"
+                  f"subprocess.run({comando!r}, input={entrada!r}, text=True, capture_output=True, cwd={str(RAIZ)!r});"
+                  "print(resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss)")
+        salida = subprocess.run([sys.executable, "-c", codigo], capture_output=True, text=True).stdout
+        return int(salida.strip()) / 1024
+    return _rss_pico_windows(comando, entrada)
 
 
 def main():
