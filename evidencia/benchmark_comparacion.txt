@@ -1,0 +1,11 @@
+1) Formato del archivo de datos (20 000 atenciones)
+   indent=2  :     4611 KB     94.9 ms
+   compacto  :     3547 KB     33.2 ms   (23% menos tamaño)
+2) Conteo por centro poblado (20 000 atenciones)
+   reduce + copia de dict:     7.9 ms
+   Counter + map         :     3.1 ms   (2.5x más rápido)
+3) Guardado automático con el volumen de un año de un puesto (1 000 pacientes, 6 000 atenciones)
+   978 KB, 34.1 ms por registro (el usuario no lo percibe)
+4) Memoria de 20 000 objetos de 5 atributos
+   con __dict__  :     2203 KB
+   con __slots__ :     1575 KB

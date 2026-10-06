@@ -1,0 +1,7 @@
+Volumen simulado: 5000 pacientes, 20000 atenciones
+Cargar el volumen completo:          0.224 s
+Reporte de una semana (4669 atenciones):    11.0 ms   (criterio: < 5 s)
+Guardar en disco (4,611 KB):        145.8 ms
+Cargar desde disco:                   64.6 ms
+Memoria de los datos en RAM:           5.2 MB (pico)
+Python vacío (referencia):            11.2 MB
