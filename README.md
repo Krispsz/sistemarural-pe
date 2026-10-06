@@ -10,7 +10,7 @@ provincia Sánchez Carrión, La Libertad.
 ## Equipo
 - Fabrizio [completar apellido]
 - [Integrante 2]
-- [Integrante 3]
+- [Eros Jorge Antonio Valladares Campos]
 - [Integrante 4]
 - [Integrante 5]
 
